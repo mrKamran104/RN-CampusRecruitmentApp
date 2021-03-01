@@ -37,6 +37,7 @@ function JobPost(props) {
             qualification: qualification,
             salary: salary,
             uid: props.route.params.uid,
+            name: props.route.params.name,
             experience: experience,
             totalPosition: totalPosition,
             responsibility: responsibility,

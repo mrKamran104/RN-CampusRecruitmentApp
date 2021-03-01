@@ -22,6 +22,8 @@ import HomeScreen from '../../screens/HomeScreen';
 import AboutScreen from './../../screens/AboutScreen';
 import ProfileScreen from './../../screens/ProfileScreen';
 import JobPost from './../../screens/JobPost/Jobpost';
+import MyCV from './../../screens/MyCV/MyCV';
+import PostDetails from './../../screens/PostDetails/PostDetails';
 
 
 const Stack = createStackNavigator();
@@ -137,9 +139,12 @@ const AppStackNavigator = (props) => {
             // }
             />
             <Stack.Screen name="Details" component={DetailsScreen} />
+            <Stack.Screen name="Post Details" component={PostDetails} />
             <Stack.Screen name="JobPost" component={JobPost} />
+            <Stack.Screen name="My CV" component={MyCV} />
             <Stack.Screen name="About" component={AboutScreen}
               options={{ header: () => null, }} />
+
             <Stack.Screen name="Profile" component={ProfileScreen}
               options={{
                 headerLeft: () => <Button onPress={() => navigation.openDrawer()} transparent>

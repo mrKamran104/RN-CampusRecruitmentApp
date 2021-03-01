@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import {
   Dimensions,
   Image,
-  Picker, StyleSheet, Text, View, ScrollView
+  Picker, StyleSheet, Text, View, ScrollView, Alert
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
@@ -57,9 +57,20 @@ function ProfileScreen(props) {
         email: userEmail,
         photo: resourcePath,
         phoneNo: phoneNo,
-        role: props.user.role
+        role: props.user.role,
       };
-      { props.user.role === 'student' ? Data['gender'] = genderRadio : Data["directorNames"] = directorNames, Data['hrName'] = hrName }
+      if (props.user.role === 'student') {
+        Data['gender'] = genderRadio;
+        Data['matricMarks'] = props.user.matricMarks
+        Data['intermediateMarks'] = props.user.intermediateMarks
+        Data['bachlerMarks'] = props.user.bachlerMarks
+        Data['masterMarks'] = props.user.masterMarks
+        Data['descriptionMarks'] = props.user.descriptionMarks
+      }
+      else {
+        Data["directorNames"] = directorNames;
+        Data['hrName'] = hrName;
+      }
       props.updateProfile({
         ...Data
       });
@@ -174,22 +185,25 @@ function ProfileScreen(props) {
               disabled={!edit ? true : false}
             />
           </Item>
-          <Item floatingLabel>
-            <Label>Director Name</Label>
-            <Input
-              value={directorNames}
-              onChangeText={(val) => setDirectorNames(val)}
-              disabled={!edit ? true : false}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>HR Name</Label>
-            <Input
-              value={hrName}
-              onChangeText={(val) => setHrName(val)}
-              disabled={!edit ? true : false}
-            />
-          </Item>
+          {props.user.role === "company" &&
+            <>
+              <Item floatingLabel>
+                <Label>Director Name</Label>
+                <Input
+                  value={directorNames}
+                  onChangeText={(val) => setDirectorNames(val)}
+                  disabled={!edit ? true : false}
+                />
+              </Item>
+              <Item floatingLabel>
+                <Label>HR Name</Label>
+                <Input
+                  value={hrName}
+                  onChangeText={(val) => setHrName(val)}
+                  disabled={!edit ? true : false}
+                />
+              </Item>
+            </>}
           {props.user.role === "student" &&
             <>
               <Text style={{ marginStart: 20, fontSize: 16, marginTop: 10 }}>

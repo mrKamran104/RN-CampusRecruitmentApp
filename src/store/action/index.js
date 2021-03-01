@@ -24,7 +24,12 @@ export function SignupUser(user) {
       address: user.address,
       gender: user.gender,
       phoneNo: user.phoneNo,
-      role: user.role
+      role: user.role,
+      matricMarks: user.matricMarks? user.matricMarks : '',
+      intermediateMarks: user.intermediateMarks? user.intermediateMarks : '' ,
+      bachlerMarks: user.bachlerMarks? user.bachlerMarks : '',
+      masterMarks: user.masterMarks? user.masterMarks : '',
+      descriptionMarks: user.descriptionMarks? user.descriptionMarks : '',
     }
     :
     create_user = {
@@ -80,6 +85,8 @@ export function SignupUser(user) {
   };
 }
 
+
+
 export function Disable(para) {
   return (dispatch) => {
     dispatch({ type: 'Disable', payload: para });
@@ -121,6 +128,7 @@ export function SigninUser(user) {
 }
 
 export function updateProfile(user) {
+  console.log("userss",user)
   let update_user = null;
   user.role === 'student' ?
     update_user = {
@@ -130,7 +138,12 @@ export function updateProfile(user) {
       address: user.address,
       gender: user.gender,
       phoneNo: user.phoneNo,
-      role: user.role
+      role: user.role,
+      matricMarks: user.matricMarks,
+      intermediateMarks: user.intermediateMarks,
+      bachlerMarks: user.bachlerMarks,
+      masterMarks: user.masterMarks,
+      descriptionMarks: user.descriptionMarks,
     }
     :
     update_user = {
@@ -196,7 +209,7 @@ export const GetPosts = (uid) => {
   // let posts = [];
   console.log(uid)
   return (dispatch) => {
-    firebase.database().ref('/').child(`/JobPost/${uid}`).on('value', (data)=>{
+    firebase.database().ref('/').child(`/JobPost/${uid}`).on('value', (data) => {
       console.log("data", data.val())
       dispatch({ type: 'GetPosts', payload: data.val() });
     })
@@ -205,7 +218,7 @@ export const GetPosts = (uid) => {
 
 export const GetAllPosts = () => {
   return (dispatch) => {
-    firebase.database().ref('/').child(`/JobPost/`).on('value', (data)=>{
+    firebase.database().ref('/').child(`/JobPost/`).on('value', (data) => {
       console.log("data", data.val())
       dispatch({ type: 'GetAllPosts', payload: data.val() });
     })

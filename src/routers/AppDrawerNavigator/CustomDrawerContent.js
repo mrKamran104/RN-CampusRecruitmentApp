@@ -61,6 +61,12 @@ const CustomDrawerContent = (props) => {
           icon={{ name: 'person', type: 'Ionicons' }}
           onPress={() => navigation.navigate('Profile')}
         />
+        {props.user.role === 'student' &&
+        <CustomDrawerItem
+          title="My CV"
+          icon={{ name: 'clipboard-notes', type: 'Foundation' }}
+          onPress={() => navigation.navigate('My CV')}
+        />}
         <CustomDrawerItem
           title="About"
           icon={{ name: 'info-circle', type: 'FontAwesome' }}
@@ -167,7 +173,8 @@ const CustomDrawerContent = (props) => {
 
 function mapStateToProp(state) {
   return ({
-    login: state.root.login
+    login: state.root.login,
+    user: { ...state.root.user }
   })
 }
 function mapDispatchToProp(dispatch) {

@@ -26,6 +26,9 @@ function HomeScreen(props) {
     props.user.role === 'student' && props.GetAllPosts()
   }, [])
 
+  console.log("userrrrr", props.user)
+  console.log("posts", props.posts)
+
   return (
     <View
       style={{
@@ -36,46 +39,50 @@ function HomeScreen(props) {
       }}>
       <View style={{ flex: 1 }}>
         <ScrollView style={{ marginTop: 25, marginBottom: 55 }}>
-          {props.user.role === 'company' && Object.keys(props.posts)?.map((v, i) => {
-            return (
-              <View style={{ alignItems: 'center' }} key={i}>
-                <Card style={{ width: WIDTH - 20 }}>
-                  <TouchableOpacity onPress={() => { navigation.navigate('Details', { params: { select: v } }) }}>
-                    <CardItem>
-                      <View>
-                        <Text>{props.posts[v].jobTitle}</Text>
-                        <Text>{props.posts[v].totalPosition}</Text>
-                        <Text>{props.posts[v].qualification}</Text>
-                      </View>
-                      <Right>
-                        <View style={{ alignItems: 'flex-start' }}>
-                          <Text>{props.posts[v].experience}</Text>
-                          <Text>{props.posts[v].salary}</Text>
+          <Text style={{ marginBottom: 25, fontWeight: 'bold', fontSize: 25, textAlign: 'center' }}>{props.user.role === 'company' ? `${props.user.name} Posts` : 'All Companies Post\'s'}</Text>
+          {props.user.role === 'company' &&
+            Object.keys(props.posts)?.map((v, i) => {
+              return (
+                <View style={{ alignItems: 'center' }} key={i}>
+                  <Card style={{ width: WIDTH - 20 }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Post Details', { params: { select: props.posts[v] } }) }}>
+                      <CardItem>
+                        <View>
+                          <Text><Text style={{ fontWeight: "bold" }}>Company: </Text>{props.user.name}</Text>
+                          <Text><Text style={{ fontWeight: "bold" }}>Total Position: </Text>{props.posts[v].totalPosition}</Text>
+                          <Text><Text style={{ fontWeight: "bold" }}>Qualification: </Text>{props.posts[v].qualification}</Text>
                         </View>
-                      </Right>
-                    </CardItem>
-                  </TouchableOpacity>
-                </Card>
-              </View>
-            )
-          })}
+                        <Right>
+                          <View style={{ alignItems: 'flex-start' }}>
+                            <Text><Text style={{ fontWeight: "bold" }}>Job Title: </Text>{props.posts[v].jobTitle}</Text>
+                            <Text><Text style={{ fontWeight: "bold" }}>Experience: </Text>{props.posts[v].experience}</Text>
+                            <Text><Text style={{ fontWeight: "bold" }}>Salary: </Text>{props.posts[v].salary}</Text>
+                          </View>
+                        </Right>
+                      </CardItem>
+                    </TouchableOpacity>
+                  </Card>
+                </View>
+              )
+            })}
           {props.user.role === 'student' && Object.keys(props.allposts)?.map((v, i) => {
             let op = props.allposts[v];
             return Object.keys(props.allposts[v]).map((v, i) => {
               return (
                 <View style={{ alignItems: 'center' }} key={i}>
                   <Card style={{ width: WIDTH - 20 }}>
-                    <TouchableOpacity onPress={() => { navigation.navigate('Details', { params: { select: v } }) }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Details', { params: { select: op[v] } }) }}>
                       <CardItem>
                         <View>
-                          <Text>{op[v].jobTitle}</Text>
-                          <Text>{op[v].totalPosition}</Text>
-                          <Text>{op[v].qualification}</Text>
+                          <Text><Text style={{ fontWeight: "bold" }}>Company: </Text>{op[v].name}</Text>
+                          <Text><Text style={{ fontWeight: "bold" }}>Job Title: </Text>{op[v].jobTitle}</Text>
+                          <Text><Text style={{ fontWeight: "bold" }}>Qualification: </Text>{op[v].qualification}</Text>
                         </View>
                         <Right>
                           <View style={{ alignItems: 'flex-start' }}>
-                            <Text>{op[v].experience}</Text>
-                            <Text>{op[v].salary}</Text>
+                            <Text><Text style={{ fontWeight: "bold" }}>Total Position: </Text>{op[v].totalPosition}</Text>
+                            <Text><Text style={{ fontWeight: "bold" }}>Experience: </Text>{op[v].experience}</Text>
+                            <Text><Text style={{ fontWeight: "bold" }}>Salary: </Text>{op[v].salary}</Text>
                           </View>
                         </Right>
                       </CardItem>
@@ -89,7 +96,7 @@ function HomeScreen(props) {
         {props.user.role === 'company' && <Fab
           active={false}
           style={{ backgroundColor: '#5067FF' }}
-          onPress={() => navigation.navigate('JobPost', { uid: props.user.uid })}>
+          onPress={() => navigation.navigate('JobPost', { uid: props.user.uid, name: props.user.name })}>
           <Icon name="add" />
         </Fab>}
       </View>
